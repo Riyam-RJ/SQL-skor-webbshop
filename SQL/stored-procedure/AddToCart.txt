@@ -1,0 +1,55 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddToCart`(in kundid int, in bestallningid int, in skorid int)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SHOW ERRORS;
+        ROLLBACK;
+    END;
+
+	start transaction;
+
+        call inStock(skorid,@inStock);
+        if @inStock=0 then
+
+			call isBestallningFinns(bestallningid, @bestallningFinns);
+            call produktFinnsIBestallning(bestallningid,skorid, @skorFinnsIBestallning);
+
+			# 1) if bestallning does not exist then we create it
+			# check if bestallningExist first by calling another stored procedure
+			if bestallningid is null or @bestallningFinns=1 then
+				call debug_msg('regel 1)');
+				call getTodaysDate(@today);
+
+				insert into bestallning(kund_id, datum)
+				values(kundid, @today);
+
+				insert into bestallningdetalj(bestallning_id, skor_id, antal_skor)
+				values((select max(id) from bestallning),skorid,1);
+
+			# 2) Om beställningen redan finns ska produkten läggas till i beställningen.
+			elseif @bestallningFinns=0 and @skorFinnsIBestallning=1 then
+				call debug_msg('regel 2)');
+				insert into bestallningdetalj(bestallning_id, skor_id, antal_skor)
+				values(bestallningid,skorid,1);
+
+			# 3) Om beställningen finns och produkten redan finns i den ska vi lägga till
+			#    ytterligare ett exemplar av produkten i beställningen.
+			else
+				call debug_msg('regel 3');
+				UPDATE bestallningdetalj
+				SET antal_skor = antal_skor + 1
+				WHERE bestallning_id = @bestallningid and skor_id = @skorid;
+			end if;
+            
+			call updateLagerAntalet(skorid);
+
+            set @msg = 'success';
+
+		else
+			commit;
+			set @msg = 'skor finns inte i lager';
+		end if;
+
+	COMMIT;
+	  select @msg as message;
+END
