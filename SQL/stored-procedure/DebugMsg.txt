@@ -1,0 +1,4 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `debug_msg`(msg VARCHAR(255))
+BEGIN
+    select concat('* ', msg) AS '* DEBUG:';
+END
