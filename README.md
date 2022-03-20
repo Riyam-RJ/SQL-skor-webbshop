@@ -33,9 +33,8 @@ för- och efternamn, samt det totala värdet som varje person har shoppats för,
 # Lösning
 
 ## ER-Diagram
-![er](https://user-images.githubusercontent.com/92685200/153779372-70566994-b609-4594-90cb-db8916a5bbfd.png)
+![skor_ER_diagram](https://user-images.githubusercontent.com/92685200/159187329-ec88abe7-b48c-4488-aa26-0789dd7f069c.png)
 
 ## Relationsmodel
-![relationsmodell](https://user-images.githubusercontent.com/92685200/153779397-3f826ca3-4002-450b-a6b5-81be9997a768.png)
-
+![relationsModell](https://user-images.githubusercontent.com/92685200/159187302-d85bafce-5377-4c3a-adeb-1242aec36421.png)
 
