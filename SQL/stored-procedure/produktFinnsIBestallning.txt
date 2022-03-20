@@ -1,0 +1,14 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `produktFinnsIBestallning`(
+	in bestallningid int,
+    in skorid int,
+    out produktFinns int
+    )
+BEGIN
+    if exists (select * from bestallningdetalj bd 
+			   where bd.bestallning_id=bestallningid
+               and bd.skor_id=skorid) then
+		set produktFinns=0;
+	else
+		set produktFinns=1;
+	end if;
+END

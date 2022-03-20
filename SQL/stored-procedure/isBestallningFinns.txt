@@ -1,0 +1,12 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `isBestallningFinns`(
+	in bestallningid int,
+    out bestallningFinns int
+    )
+BEGIN
+    if exists (select * from bestallning b where b.id=bestallningid) then
+		set bestallningFinns=0;
+	else
+		set bestallningFinns=1;
+        
+	end if;
+END

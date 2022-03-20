@@ -1,0 +1,6 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getTodaysDate`(
+    out todaysDate date
+    )
+BEGIN
+    SELECT CAST(CURRENT_DATE() AS CHAR(50)) INTO todaysDate;
+END

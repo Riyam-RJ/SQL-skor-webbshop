@@ -1,0 +1,4 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateLagerAntalet`(in skorid int)
+BEGIN
+    UPDATE skor SET totalt_i_lager=totalt_i_lager-1 where id=skorid;
+END

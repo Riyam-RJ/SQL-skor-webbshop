@@ -1,0 +1,11 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InStock`(
+	in skorid int,
+    out inStock int
+    )
+BEGIN
+    if (select s.totalt_i_lager from skor s where s.id=skorid) = 0 then
+		set inStock=1;
+	else
+		set inStock=0;
+	end if;
+END
